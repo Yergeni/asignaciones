@@ -1,0 +1,48 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}User {{ user.firstName }}{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+<h1>Welcome to the profile of user {{ user.firstName }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>{{ 'Username' | trans }}</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'First name' | trans }}</th>
+                <td>{{ user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Last name' | trans }}</th>
+                <td>{{ user.lastName }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Email' | trans }}</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'Role' | trans }}</th>
+                <td>{{ user.role }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('user_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-sm btn-primary">{{ 'Edit' | trans }}</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete" class="btn btn-sm btn-danger btn-delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+
+{% endblock %}
