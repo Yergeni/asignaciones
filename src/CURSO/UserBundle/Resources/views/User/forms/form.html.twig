@@ -1,0 +1,31 @@
+{# La variable form es la enviada a traves de la peticion include de cada vista (edit y view) #}
+{# en el caso de la vista que envie el form de eleiminar sea desde list se usa ajax #}
+{# ademas del mensaje enviado en la variable message #}
+
+{{ form_start(form, {'attr': {'id': id | default('form')}}) }}
+
+    {{ form_widget(form) }}
+    
+    {% if with_submit is not defined or with_submit == true %}
+    {# si ocurre esto es que la peticion de eliminar vino de la vista view o la vista edit y no por ajax #}
+        <input type="button" value="{{ 'Delete user'|trans }}" class="btn btn-lg btn-block btn-danger" onclick="confirmDelete()" >
+    {% endif %}
+
+{{ form_end(form) }}
+
+<script>
+    // obtengo la variable message enviada desde cada vista(view, edit or list)
+    var message = '{{ message }}';
+    
+    function confirmDelete()
+    {
+        // Esta funcion recibe un mensaje y una funcion anonima con el resultdado de la confirmacion (OK o CANCEL)
+        bootbox.confirm(message, function(result) {
+            if(result == true) //pregunta si se confirmo o sea OK
+            {
+                document.form.submit(); //manda a procesar el formulario
+            }
+        });
+    }
+    
+</script>

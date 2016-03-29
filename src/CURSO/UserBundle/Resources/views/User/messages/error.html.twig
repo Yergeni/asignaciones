@@ -1,0 +1,17 @@
+{# mensajes de notificacion erronea #}
+
+{% if flash_message is not defined %} {# esto es en caso que se envie el mensaje por el RESPONSE json_encode #}
+    <div class="alert alert-danger hidden" id="message-error" role="alert">
+        <div class="container">
+            <span id="user-message-error"></span>
+        </div>
+    </div>
+{% endif %}
+
+{% for flash_message in app.session.flashbag.get('mensaje') %}
+    <div class="alert alert-danger" role="alert">
+        <div class="container">
+            {{ flash_message }}
+        </div>
+    </div>
+{% endfor %}
