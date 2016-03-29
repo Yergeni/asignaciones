@@ -5,7 +5,7 @@ namespace CURSO\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 //clase de encoder para poder usarla para codificar la entidad User
-use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
+//use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 use Symfony\Component\Validator\Constraints as Assert; //Validations
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; //Para hacer los atributos de la entidad unicos
 
@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; //Para hacer los
  * @UniqueEntity("username")
  * @UniqueEntity("email")
  */
-class User implements UserInterface, EncoderAwareInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -363,10 +363,35 @@ class User implements UserInterface, EncoderAwareInterface
         
     }
     
-    //metodo del EncoderAwareInterface
-    public function getEncoderName()
+    //Serializacion
+     /** @see \Serializable::serialize() */
+    public function serialize()
     {
-        return null; // use the default encoder
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
     }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
+    
+    // //metodo del EncoderAwareInterface
+    // public function getEncoderName()
+    // {
+    //     return null; // use the default encoder
+    // }
 }
 

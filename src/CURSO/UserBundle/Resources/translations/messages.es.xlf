@@ -65,6 +65,10 @@
                 <source>Next</source>
                 <target>Siguiente</target>
             </trans-unit>
+            <trans-unit id="17">
+                <source>View</source>
+                <target>Ver</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

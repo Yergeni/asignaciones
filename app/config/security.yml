@@ -4,27 +4,43 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
+        #provider 
+        # our_db_provider:
+        #     entity:
+        #         class: UserBundle:User
+        #         property: username
         in_memory:
             memory: ~
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        main:
-            anonymous: ~
+        # main:
+            # anonymous: ~
             # activate different ways to authenticate
-
+            # pattern:    ^/
+            # pattern:    ^/user/*
             # http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+            # provider: our_db_provider
+        # default http login basic
+        default:
+            anonymous: ~
+        #     http_basic: ~
+            
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
 
     #encoder
     encoders:
         CURSO\UserBundle\Entity\User:
             algorithm: bcrypt
             cost: 10
+            
+    # access_control:
+    #     # require ROLE_ADMIN for /admin*
+    #     - { path: ^/admin, roles: ROLE_ADMIN }
+    #     - { path: ^/user*, roles: ROLE_USER }

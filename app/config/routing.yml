@@ -1,7 +1,7 @@
 curso_user:
     resource: "@CURSOUserBundle/Controller/"
     type:     annotation
-    prefix:   /curso
+    prefix:   /
 
 app:
     resource: "@AppBundle/Controller/"

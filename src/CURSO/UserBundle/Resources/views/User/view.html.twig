@@ -1,48 +1,89 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}User {{ user.firstName }}{% endblock %}
-
 {% block body %}
-    {{ parent() }}
-<h1>Welcome to the profile of user {{ user.firstName }}</h1>
+	{{ parent() }}
+	<div class="container well">
+	    <div class="col-md-9">
+	    <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+	        <br>
+	        <dl>
+	            <dt>{{'Username'|trans}}</dt>
+	            <dd>
+	                {{ user.username }}
+	                &nbsp;
+	            </dd>
+	            <br>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>{{ 'Username' | trans }}</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'First name' | trans }}</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'Last name' | trans }}</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'Email' | trans }}</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'Role' | trans }}</th>
-                <td>{{ user.role }}</td>
-            </tr>
-        </tbody>
-    </table>
+	            <dt>{{'First name'|trans}}</dt>
+	            <dd>
+	                {{ user.firstName }}
+	                &nbsp;
+	            </dd>
+	            <br>
 
-    <ul>
-        <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-sm btn-primary">{{ 'Edit' | trans }}</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete" class="btn btn-sm btn-danger btn-delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+	            <dt>{{'Last name'|trans}}</dt>
+	            <dd>
+	                {{ user.lastName }}
+	                &nbsp;
+	            </dd>
+	            <br>
 
+	            <dt>{{'Email'|trans}}</dt>
+	            <dd>
+	                {{ user.email }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Role'|trans}}</dt>
+	            <dd>
+                	{% if user.role == 'ROLE_ADMIN' %}
+						{% trans %}Administrator{% endtrans %}
+					{% elseif user.role == 'ROLE_USER' %}
+						{% trans %}User{% endtrans %}
+                	{% endif %}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Active'|trans}}</dt>
+	            <dd>
+                	{% if user.isActive == 1 %}
+						<span class="text-success">{% trans %}Enabled{% endtrans %}</span>
+					{% elseif user.isActive == 0 %}
+						<span class="text-warning">{% trans %}Disabled{% endtrans %}</span>
+                	{% endif %}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Created'|trans}}</dt>
+	            <dd>
+	                {{ user.createdAt|date('d-m-Y H:i') }}
+	                &nbsp;
+	            </dd>
+	            <br>
+
+	            <dt>{{'Updated'|trans}}</dt>
+	            <dd>
+	                {{ user.updatedAt|date('d-m-Y H:i') }}
+	                &nbsp;
+	            </dd>
+	            <br>
+	        </dl>
+	    </div>
+	    <div class="col-md-3">
+	    	<h3>{{ 'Actions'|trans }}:</h3>
+			<p>
+		    	<a href="{{ path('user_edit', { id: user.id }) }}" class="btn btn-primary btn-lg btn-block">
+		    		<span class="glyphicon glyphicon-edit"></span>
+		        	{{ 'Edit user'|trans }}
+				 </a>
+			</p>
+			<p>
+				{# delete_form es enviada desde el controlador #}
+			    {{ include('CURSOUserBundle:User:forms/form.html.twig', { form: delete_form, message: 'Are you sure?'|trans }) }}
+			</p>
+		</div>
+	</div>
 {% endblock %}

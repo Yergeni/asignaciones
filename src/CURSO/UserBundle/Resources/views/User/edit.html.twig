@@ -2,6 +2,8 @@
 
 {% block body %}
     {{ parent() }}
+    {# Mensajes de session enviados #}
+    {{ include("CURSOUserBundle:User:messages/success.html.twig") }}
 	<div class="main container">
 		<div class="row well">
 			<div class="col-md-6">
@@ -56,17 +58,19 @@
 				</div>
 			</fieldset>
 
-			<div>
-		    <p>
-		        {{ form_widget(form.save, {'label' : 'Update user', 'attr': {'class': 'btn btn-success'}}) }}
-		       {# {{ form_widget(form.delete, {'label' : 'Delete user', 'attr': {'class': 'btn btn-sm btn-danger btn-delete'}}) }} #}
-		    	{{ form_end(form) }}
-	    		
-	    		{{ form_start(delete_form) }}
-                	<input type="submit" value="Delete user" class="btn btn-danger btn-delete">
-            	{{ form_end(delete_form) }}
-            </p>
-	    	</div>
+			<div class="col-md-4">
+		    	{{ form_widget(form.save, {'label' : 'Update user', 'attr': {'class': 'btn btn-lg btn-block btn-success'}}) }}
+				{{ form_end(form) }}
+			</div>
+		    
+	    	<div class="col-md-6">	
+	    		{#{{ form_start(delete_form) }}#}
+       {#         	<input type="submit" value="Delete user" class="btn btn-danger btn-delete">#}
+       {#     	{{ form_end(delete_form) }}#}
+       			
+       			{# delete_form es enviada desde el controlador #}
+       			{{ include('CURSOUserBundle:User:forms/form.html.twig', { form: delete_form, message: 'Are you sure?'|trans }) }}
+            </div>
 		</div>
 	</div>
 {% endblock %}	
